@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdexcept>
-
+#include <fstream>
 
 static const int NAVMESHSET_MAGIC = 'M'<<24 | 'S'<<16 | 'E'<<8 | 'T'; //'MSET';
 static const int NAVMESHSET_MAGIC_REV = 'T'<<24 | 'E'<<16 | 'S'<<8 | 'M'; //'TESM';
@@ -69,18 +69,16 @@ dtNavMeshTileHeaderSwapEndian(unsigned char* data, const int dataSize)
 
 dtNavMesh* loadNavMesh(const char* path)
 {
+	using std::ios_base;
+	using std::ifstream;
+
 	dtNavMesh* navMesh;
+	ifstream fp(path, ios_base::in | ios_base::binary);
 
-	if (!path)
-		throw invalid_argument("path invalid");
-
-	navMesh = dtAllocNavMesh();
-	if (!navMesh)
-		throw bad_alloc();
-
-	FILE* fp = fopen(path, "rb");
-	if (!fp)
+	if (!fp.is_open())
+	{
 		throw io_err("file not exists");
+	}
 
 	// Read header.
 	bool endianess = false;
@@ -88,31 +86,28 @@ dtNavMesh* loadNavMesh(const char* path)
 	NavMeshSetHeader header;
 
 	dataSize = sizeof(NavMeshSetHeader);
-	if (fread(&header, dataSize, 1, fp) != dataSize)
-	{
-		fclose(fp);
+	fp.read((char*)&header, dataSize);
+	if (!fp.good() || fp.gcount() != dataSize)
 		throw data_err("larger mesh-data expected");
-	}
 
 	if (header.magic != NAVMESHSET_MAGIC)
 	{
 		if (!dtNavMeshSetHeaderSwapEndian((unsigned char*)&header, dataSize))
-		{
-			fclose(fp);
 			throw data_err("format of mesh-data unexpected");
-		}
+
 		endianess = true;
 	}
 	if (header.version != NAVMESHSET_VERSION)
-	{
-		fclose(fp);
 		throw data_err("format of mesh-data unexpected");
-	}
+
+	navMesh = dtAllocNavMesh();
+	if (!navMesh)
+		throw bad_alloc();
 
 	dtStatus status = navMesh->init(&header.params);
 	if (dtStatusFailed(status))
 	{
-		fclose(fp);
+		dtFreeNavMesh(navMesh);
 		throw exception("unknown", status);
 	}
 
@@ -122,21 +117,22 @@ dtNavMesh* loadNavMesh(const char* path)
 	{
 		NavMeshTileHeader tileHeader;
 
-		if (fread(&tileHeader, dataSize, 1, fp) != dataSize)
+		fp.read((char*)&tileHeader, dataSize);
+		if (!fp.good() || fp.gcount() != dataSize)
 		{
-			fclose(fp);
+			dtFreeNavMesh(navMesh);
 			throw data_err("larger mesh-data expected");
 		}
 		if (endianess && !dtNavMeshTileHeaderSwapEndian(
 				(unsigned char*)&tileHeader,
 				dataSize))
 		{
-			fclose(fp);
+			dtFreeNavMesh(navMesh);
 			throw data_err("format of mesh-data unexpected");
 		}
 		if (tileHeader.dataSize < 0 || !tileHeader.tileRef)
 		{
-			fclose(fp);
+			dtFreeNavMesh(navMesh);
 			throw data_err("format of mesh-data unexpected");
 		}
 
@@ -145,14 +141,15 @@ dtNavMesh* loadNavMesh(const char* path)
 				DT_ALLOC_PERM);
 		if (!data)
 		{
-			fclose(fp);
+			dtFreeNavMesh(navMesh);
 			throw bad_alloc();
 		}
-		memset(data, 0, tileHeader.dataSize);
 
-		if (fread(data, tileHeader.dataSize, 1, fp) != tileHeader.dataSize)
+		fp.read((char*)data, tileHeader.dataSize);
+		if (!fp.good() || fp.gcount() != tileHeader.dataSize)
 		{
-			fclose(fp);
+			dtFree(data);
+			dtFreeNavMesh(navMesh);
 			throw data_err("larger mesh-data expected");
 		}
 
@@ -160,23 +157,21 @@ dtNavMesh* loadNavMesh(const char* path)
 				&& dtNavMeshDataSwapEndian(data, tileHeader.dataSize))
 			)
 		{
-			fclose(fp);
-			throw data_err("larger mesh-data expected");
+			dtFree(data);
+			dtFreeNavMesh(navMesh);
+			throw data_err("format of mesh-data unexpected");
 		}
 
-		status = navMesh->addTile(data,
-				tileHeader.dataSize,
-				DT_TILE_FREE_DATA,
-				tileHeader.tileRef,
-				0);
+		status = navMesh->addTile(data, 
+				tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef, 0);
 		if (dtStatusFailed(status))
 		{
-			fclose(fp);
+			dtFree(data);
+			dtFreeNavMesh(navMesh);
 			throw exception("unknown", status);
 		}
 	}
 
-	fclose(fp);
 	return navMesh;
 }
 
@@ -186,7 +181,7 @@ NavMeshQuery* loadNavMeshQuery(dtNavMesh* navMesh, object type)
 	dtNavMeshQuery* navq;
 	NavMeshQuery* wnavq;
 
-	type(0.0f, 0.0f, 0.0f);
+	type(0.0f, 0.0f, 0.0f); // test the constructor of type
 
 	filter = dtAllocQueryFilter();
 	if (!filter)
@@ -201,6 +196,14 @@ NavMeshQuery* loadNavMeshQuery(dtNavMesh* navMesh, object type)
 		throw bad_alloc();
 	}
 
+	dtStatus status = navq->init(navMesh, 2048); // TODO: maxNodes ?
+	if (dtStatusFailed(status))
+	{
+		dtFreeQueryFilter(filter);
+		dtFreeNavMeshQuery(navq);
+		throw exception("unknown", status);
+	}
+
 	wnavq = new NavMeshQuery(filter, navq, type);
 	if (!wnavq)
 	{
@@ -211,6 +214,4 @@ NavMeshQuery* loadNavMeshQuery(dtNavMesh* navMesh, object type)
 
 	return wnavq;
 }
-
-
 

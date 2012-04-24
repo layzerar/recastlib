@@ -68,6 +68,7 @@ public:
 	///  @param[in]		endPos		A position within the end polygon. [(x, y, z)]
 	///  @param[in]		filter		The polygon filter to apply to the query.
 	/// @returns The status flags for the query.
+	/* dtStatus */
 	dtStatus initSlicedFindPath(dtPolyRef startRef, dtPolyRef endRef,
 			object startPos, object endPos);
 

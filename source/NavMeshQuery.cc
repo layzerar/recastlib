@@ -49,6 +49,7 @@ NavMeshQuery::~NavMeshQuery()
 	dtFreeNavMeshQuery(m_navq);
 }
 
+/* (dtStatus, path) */
 tuple NavMeshQuery::findPath(dtPolyRef startRef, 
 	dtPolyRef endRef,
 	object startPos,
@@ -101,6 +102,7 @@ tuple NavMeshQuery::findPath(dtPolyRef startRef,
 	return make_tuple(status, path);
 }
 
+/* (dtStatus, (straightPath, straightPathFlags, straightPathRefs)) */
 tuple NavMeshQuery::findStraightPath(object startPos,
 	object endPos, 
 	list path, 
@@ -131,7 +133,8 @@ tuple NavMeshQuery::findStraightPath(object startPos,
 		pStraightPathRefs = (dtPolyRef*)dtAlloc(
 			sizeof(dtPolyRef)*maxStraightPath, DT_ALLOC_TEMP);
 		pPath = (dtPolyRef*)dtAlloc(sizeof(dtPolyRef)*pathSize, DT_ALLOC_TEMP);
-		if (!pStraightPath || !straightPathFlags || !straightPathRefs || !pPath)
+		if (!pStraightPath || !pStraightPathFlags 
+			|| !pStraightPathRefs || !pPath)
 		{
 			status = DT_FAILURE | DT_OUT_OF_MEMORY;
 			dtFree(pPath);
@@ -149,7 +152,7 @@ tuple NavMeshQuery::findStraightPath(object startPos,
 		status = DT_FAILURE | DT_INVALID_PARAM;
 	}
 
-	if (pStraightPath && straightPathFlags && straightPathRefs && pPath)
+	if (pStraightPath && pStraightPathFlags && pStraightPathRefs && pPath)
 	{
 		try
 		{
@@ -169,14 +172,15 @@ tuple NavMeshQuery::findStraightPath(object startPos,
 			if (dtStatusSucceed(status))
 			{
 				float *pos;
-				int iSPC = 0;
-				
-				while (iSPC < straightPathCount)
+
+				iCount = 0;
+				while (iCount < straightPathCount)
 				{
-					pos = iSPC * 3 + pStraightPath;
+					pos = pStraightPath + (iCount * 3);
 					straightPath.append(m_type(pos[0], pos[1], pos[2]));
-					straightPathFlags.append(*(pStraightPathFlags + iSPC));
-					straightPathRefs.append(*(pStraightPathRefs + iSPC));
+					straightPathFlags.append(*(pStraightPathFlags + iCount));
+					straightPathRefs.append(*(pStraightPathRefs + iCount));
+					++iCount;
 				}
 			}
 		}
@@ -200,6 +204,7 @@ tuple NavMeshQuery::findStraightPath(object startPos,
 		straightPathRefs));
 }
 
+/* dtStatus */
 dtStatus NavMeshQuery::initSlicedFindPath(dtPolyRef startRef,
 	dtPolyRef endRef,
 	object startPos,
@@ -214,6 +219,7 @@ dtStatus NavMeshQuery::initSlicedFindPath(dtPolyRef startRef,
 		pStartPos, pEndPos, m_filter);
 }
 
+/* (dtStatus, doneIters) */
 tuple NavMeshQuery::updateSlicedFindPath(const int maxIter)
 {
 	dtStatus status;
@@ -223,6 +229,7 @@ tuple NavMeshQuery::updateSlicedFindPath(const int maxIter)
 	return make_tuple(status, doneIters);
 }
 
+/* (dtStatus, path) */
 tuple NavMeshQuery::finalizeSlicedFindPath(const int maxPath)
 {
 	list path;
@@ -268,6 +275,7 @@ tuple NavMeshQuery::finalizeSlicedFindPath(const int maxPath)
 	return make_tuple(status, path);
 }
 
+/* (dtStatus, (existing, path)) */
 tuple NavMeshQuery::finalizeSlicedFindPathPartial(list existing, 
 	const int maxPath)
 {
@@ -328,6 +336,7 @@ tuple NavMeshQuery::finalizeSlicedFindPathPartial(list existing,
 	return make_tuple(status, path);
 }
 
+/* (dtStatus, (resultRef, resultParent, resultCost)) */
 tuple NavMeshQuery::findPolysAroundCircle(dtPolyRef startRef, 
 	object centerPos, 
 	const float radius, 
@@ -401,6 +410,7 @@ tuple NavMeshQuery::findPolysAroundCircle(dtPolyRef startRef,
 	return make_tuple(status, make_tuple(resultRef, resultParent, resultCost));
 }
 
+/* (dtStatus, (resultRef, resultParent,resultCost)) */
 tuple NavMeshQuery::findPolysAroundShape(dtPolyRef startRef, 
 	list verts, 
 	const int maxResult) const
