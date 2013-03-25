@@ -1,0 +1,41 @@
+ Recast/Detour/Include/DetourAssert.h       | 15 +++++++++++++++
+ Recast/Detour/Include/DetourNavMeshQuery.h |  2 +-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/Recast/Detour/Include/DetourAssert.h b/Recast/Detour/Include/DetourAssert.h
+index 3cf6522..90d26e6 100644
+--- a/Recast/Detour/Include/DetourAssert.h
++++ b/Recast/Detour/Include/DetourAssert.h
+@@ -30,4 +30,19 @@
+ #	define dtAssert assert
+ #endif
+ 
++// Note: Replace the implement of dtAssert
++#define BOOST_PYTHON_STATIC_LIB
++#include <boost/python.hpp>
++
++#undef dtAssert
++#define dtAssert(e) ((e) ? (void)0: _dt_assert(#e, __FILE__, __LINE__))
++
++inline void _dt_assert(const char* arg1, const char* arg2, int lineno)
++{
++	using namespace boost::python;
++
++	PyErr_SetString(PyExc_AssertionError, arg1);
++	throw_error_already_set();
++}
++
+ #endif // DETOURASSERT_H
+diff --git a/Recast/Detour/Include/DetourNavMeshQuery.h b/Recast/Detour/Include/DetourNavMeshQuery.h
+index d431bf1..d99a0f6 100644
+--- a/Recast/Detour/Include/DetourNavMeshQuery.h
++++ b/Recast/Detour/Include/DetourNavMeshQuery.h
+@@ -28,7 +28,7 @@
+ // setting is to use non-virtual functions, the actual implementations of the functions
+ // are declared as inline for maximum speed. 
+ 
+-//#define DT_VIRTUAL_QUERYFILTER 1
++#define DT_VIRTUAL_QUERYFILTER 1
+ 
+ /// Defines polygon filtering and traversal costs for navigation mesh query operations.
+ /// @ingroup detour
