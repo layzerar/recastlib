@@ -1,7 +1,8 @@
-# Introduction
+## Introduction
 Recastlib is a python interface for recastnavigation.
-I left it for several month. And now I try to rewrite it with a better outline, it will take a few weeks.
+
+For more detail, please see https://code.google.com/p/recastnavigation.
 
 
-# License
+## License
 MIT License
