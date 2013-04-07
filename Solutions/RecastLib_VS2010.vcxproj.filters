@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Detour">
+      <UniqueIdentifier>{0251863a-08db-4a5c-b8f9-018a72f32757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="python">
+      <UniqueIdentifier>{4aee5d6a-f9f8-4fe6-acc3-ae734eda9715}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Recast\Detour\Include\DetourAlloc.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Recast\Detour\Include\DetourAssert.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Recast\Detour\Include\DetourCommon.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Recast\Detour\Include\DetourNavMesh.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Recast\Detour\Include\DetourNavMeshBuilder.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Recast\Detour\Include\DetourNavMeshQuery.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Recast\Detour\Include\DetourNode.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Recast\Detour\Include\DetourStatus.h">
+      <Filter>Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\common.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\config.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\convertor.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\detour.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\dtmath.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\export.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\loader.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\detour\query.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\loader\sampletilemesh.h">
+      <Filter>python</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Recast\Detour\Source\DetourAlloc.cpp">
+      <Filter>Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Recast\Detour\Source\DetourCommon.cpp">
+      <Filter>Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Recast\Detour\Source\DetourNavMesh.cpp">
+      <Filter>Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Recast\Detour\Source\DetourNavMeshBuilder.cpp">
+      <Filter>Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Recast\Detour\Source\DetourNavMeshQuery.cpp">
+      <Filter>Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Recast\Detour\Source\DetourNode.cpp">
+      <Filter>Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\detour.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\dtmath.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\export.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\loader.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\detour\query.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\loader\sampletilemesh.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
