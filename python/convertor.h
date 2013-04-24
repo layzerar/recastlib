@@ -47,7 +47,7 @@ struct list_from_seq_converter {
 	}
 
 	static void construct(PyObject* obj_ptr, converter::rvalue_from_python_stage1_data* data){
-		using namespace boost::python;
+		using boost::python::extract;
 		void* storage = ((converter::rvalue_from_python_storage<std::list<T> >*)(data))->storage.bytes;
 		new (storage) std::list<T>();
 		std::vector<T>* v = (std::list<T>*)(storage);
@@ -77,7 +77,7 @@ struct vector_from_seq_converter {
 	}
 
 	static void construct(PyObject* obj_ptr, converter::rvalue_from_python_stage1_data* data){
-		using namespace boost::python;
+		using boost::python::extract;
 		void* storage = ((converter::rvalue_from_python_storage<std::vector<T> >*)(data))->storage.bytes;
 		new (storage) std::vector<T>();
 		std::vector<T>* v = (std::vector<T>*)(storage);
