@@ -8,6 +8,7 @@
 #include "query.h"
 #include "dtmath.h"
 #include "common.h"
+#include <float.h>
 
 using boost::python::override;
 using boost::python::error_already_set;
