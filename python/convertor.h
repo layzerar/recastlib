@@ -10,6 +10,7 @@
 #include "config.h"
 #include <list>
 #include <vector>
+#include <utility>
 
 namespace converter = boost::python::converter;
 
@@ -29,6 +30,14 @@ struct vector_to_list_converter {
 		using namespace boost::python;
 		list pylist; FOREACH(const T& e, v) pylist.append(e);
 		return incref(pylist.ptr());
+	}
+};
+
+template<class T1, class T2>
+struct pair_to_tuple_converter {
+	static PyObject* convert(const std::pair<T1, T2>& pair) {
+		using namespace boost::python;
+		return incref(make_tuple(pair.first, pair.second).ptr());
 	}
 };
 

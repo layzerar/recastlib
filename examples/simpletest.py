@@ -24,36 +24,31 @@ def test_sample_tile_mesh():
     startPos = dt.dtVec3(6.054083, -2.365402, 3.330421)
     endPos = dt.dtVec3(19.289761, -2.368813, -6.954918)
 
-    out = {}
-    status = query.findNearestPoly(startPos, polyPickExt, filter, out)
+    status, out = query.findNearestPoly(startPos, polyPickExt, filter)
     if dt.dtStatusFailed(status):
         return -2, status
     startRef = out["nearestRef"]
     _startPt = out["nearestPt"]
-    
-    out = {}
-    status = query.findNearestPoly(endPos, polyPickExt, filter, out)
+
+    status, out = query.findNearestPoly(endPos, polyPickExt, filter)
     if dt.dtStatusFailed(status):
         return -3, status
     endRef = out["nearestRef"]
     _endPt = out["nearestPt"]
 
     print "Get Path Reference List"
-    out = {}
-    status = query.findPath(startRef, endRef, startPos, endPos, filter, out, 32)
+    status, out = query.findPath(startRef, endRef, startPos, endPos, filter, 32)
     if dt.dtStatusFailed(status):
         return -4, status
     pathRefs = out["path"]
 
-    out = {}
-    status = query.closestPointOnPoly(pathRefs[-1], endPos, out)
+    status, out = query.closestPointOnPoly(pathRefs[-1], endPos)
     if dt.dtStatusFailed(status):
         return -5, status
     fixEndPos = out["closest"]
 
     print "Get Path Point List"
-    out = {}
-    status = query.findStraightPath(startPos, fixEndPos, pathRefs, out, 32, 0)
+    status, out = query.findStraightPath(startPos, fixEndPos, pathRefs, 32, 0)
     if dt.dtStatusFailed(status):
         return -6, status
     straightPath = out["straightPath"]

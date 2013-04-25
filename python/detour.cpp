@@ -85,6 +85,7 @@ void export_detour()
 	to_python_converter<ByteList, vector_to_list_converter<unsigned char> >();
 	vector_from_seq_converter<dtPolyRef>();
 	to_python_converter<dtPolyRefList, vector_to_list_converter<dtPolyRef> >();
+	to_python_converter<dtResult, pair_to_tuple_converter<dtStatus, dict> >();
 
 }
 

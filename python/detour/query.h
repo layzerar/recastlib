@@ -10,6 +10,7 @@
 #include "config.h"
 #include "dtmath.h"
 #include <vector>
+#include <utility>
 
 using boost::python::dict;
 using boost::python::object;
@@ -18,6 +19,7 @@ using boost::python::wrapper;
 typedef std::vector<float> FloatList;
 typedef std::vector<unsigned char> ByteList;
 typedef std::vector<dtPolyRef> dtPolyRefList;
+typedef std::pair<dtStatus, dict> dtResult;
 
 
 /*
@@ -57,11 +59,10 @@ public:
 
 	/// Standard Pathfinding Functions
 
-	dtStatus findPath(dtPolyRef startRef, dtPolyRef endRef, dtVec3 startPos,
-			dtVec3 endPos, const dtQueryFilter* filter, dict out,
-			const int maxPath) const;
+	dtResult findPath(dtPolyRef startRef, dtPolyRef endRef, dtVec3 startPos,
+			dtVec3 endPos, const dtQueryFilter* filter, const int maxPath) const;
 
-	dtStatus findStraightPath(dtVec3 startPos, dtVec3 endPos, dtPolyRefList path, dict out,
+	dtResult findStraightPath(dtVec3 startPos, dtVec3 endPos, dtPolyRefList path,
 			const int maxStraightPath, const int options=0) const;
 
 	/// Sliced Pathfinding Functions
@@ -73,57 +74,53 @@ public:
 	dtStatus initSlicedFindPath(dtPolyRef startRef, dtPolyRef endRef,
 			dtVec3 startPos, dtVec3 endPos, const dtQueryFilter* filter);
 
-	dtStatus updateSlicedFindPath(const int maxIter, dict out);
+	dtResult updateSlicedFindPath(const int maxIter);
 
-	dtStatus finalizeSlicedFindPath(dict out, const int maxPath);
+	dtResult finalizeSlicedFindPath(const int maxPath);
 
-	dtStatus finalizeSlicedFindPathPartial(dtPolyRefList existing, dict out, const int maxPath);
+	dtResult finalizeSlicedFindPathPartial(dtPolyRefList existing, const int maxPath);
 
 	/// Dijkstra Search Functions
 
-	dtStatus findPolysAroundCircle(dtPolyRef startRef, dtVec3 centerPos,
-			const float radius, const dtQueryFilter* filter, dict out,
-			const int maxResult) const;
+	dtResult findPolysAroundCircle(dtPolyRef startRef, dtVec3 centerPos,
+			const float radius, const dtQueryFilter* filter, const int maxResult) const;
 
-	dtStatus findPolysAroundShape(dtPolyRef startRef, dtVec3List verts,
-			const dtQueryFilter* filter, dict out, const int maxResult) const;
+	dtResult findPolysAroundShape(dtPolyRef startRef, dtVec3List verts,
+			const dtQueryFilter* filter, const int maxResult) const;
 
 	/// Local Query Functions
 
-	dtStatus findNearestPoly(dtVec3 center, dtVec3 extents,
-			const dtQueryFilter* filter, dict out) const;
+	dtResult findNearestPoly(dtVec3 center, dtVec3 extents,
+			const dtQueryFilter* filter) const;
 
-	dtStatus queryPolygons(dtVec3 center, dtVec3 extents,
-			const dtQueryFilter* filter, dict out, const int maxPolys) const;
+	dtResult queryPolygons(dtVec3 center, dtVec3 extents,
+			const dtQueryFilter* filter, const int maxPolys) const;
 
-	dtStatus findLocalNeighbourhood(dtPolyRef startRef, dtVec3 centerPos,
-			const float radius, const dtQueryFilter* filter, dict out,
-			const int maxResult) const;
+	dtResult findLocalNeighbourhood(dtPolyRef startRef, dtVec3 centerPos,
+			const float radius, const dtQueryFilter* filter, const int maxResult) const;
 
-	dtStatus moveAlongSurface(dtPolyRef startRef, dtVec3 startPos,
-			dtVec3 endPos, const dtQueryFilter* filter, dict out,
-			const int maxVisitedSize) const;
+	dtResult moveAlongSurface(dtPolyRef startRef, dtVec3 startPos,
+			dtVec3 endPos, const dtQueryFilter* filter, const int maxVisitedSize) const;
 
-	dtStatus raycast(dtPolyRef startRef, dtVec3 startPos, dtVec3 endPos,
-			const dtQueryFilter* filter, dict out, const int maxPath) const;
+	dtResult raycast(dtPolyRef startRef, dtVec3 startPos, dtVec3 endPos,
+			const dtQueryFilter* filter, const int maxPath) const;
 
-	dtStatus findDistanceToWall(dtPolyRef startRef, dtVec3 centerPos,
-			const float maxRadius, const dtQueryFilter* filter, dict out) const;
+	dtResult findDistanceToWall(dtPolyRef startRef, dtVec3 centerPos,
+			const float maxRadius, const dtQueryFilter* filter) const;
 
-	dtStatus getPolyWallSegments(dtPolyRef ref, const dtQueryFilter* filter,
-			dict out, const int maxSegments) const;
+	dtResult getPolyWallSegments(dtPolyRef ref, const dtQueryFilter* filter,
+			const int maxSegments) const;
 
-	dtStatus findRandomPoint(const dtQueryFilter* filter, dict out) const;
+	dtResult findRandomPoint(const dtQueryFilter* filter) const;
 
-	dtStatus findRandomPointAroundCircle(dtPolyRef startRef, dtVec3 centerPos,
-			const float maxRadius, const dtQueryFilter* filter, dict out) const;
+	dtResult findRandomPointAroundCircle(dtPolyRef startRef, dtVec3 centerPos,
+			const float maxRadius, const dtQueryFilter* filter) const;
 
-	dtStatus closestPointOnPoly(dtPolyRef ref, dtVec3 pos, dict out) const;
+	dtResult closestPointOnPoly(dtPolyRef ref, dtVec3 pos) const;
 
-	dtStatus closestPointOnPolyBoundary(dtPolyRef ref, dtVec3 pos,
-			dict out) const;
+	dtResult closestPointOnPolyBoundary(dtPolyRef ref, dtVec3 pos) const;
 
-	dtStatus getPolyHeight(dtPolyRef ref, dtVec3 pos, dict out) const;
+	dtResult getPolyHeight(dtPolyRef ref, dtVec3 pos) const;
 
 	/// Miscellaneous Functions
 
