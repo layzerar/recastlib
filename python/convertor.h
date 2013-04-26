@@ -108,7 +108,7 @@ struct dtvec3_from_seq_convertor {
 	}
 
 	static void* convertible(PyObject* obj_ptr) {
-		if (!PySequence_Check(obj_ptr))
+		if (!PySequence_Check(obj_ptr) || !PyObject_HasAttrString(obj_ptr, "__len__"))
 			return 0;
 		if (PySequence_Size(obj_ptr) != 3)
 			return 0;
