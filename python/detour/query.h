@@ -59,11 +59,13 @@ public:
 
 	/// Standard Pathfinding Functions
 
-	dtResult findPath(dtPolyRef startRef, dtPolyRef endRef, dtVec3 startPos,
-			dtVec3 endPos, const dtQueryFilter* filter, const int maxPath) const;
+	dtResult findPath(dtPolyRef startRef, dtPolyRef endRef,
+			dtVec3 startPos, dtVec3 endPos, const dtQueryFilter* filter,
+			const int maxPath) const;
 
-	dtResult findStraightPath(dtVec3 startPos, dtVec3 endPos, dtPolyRefList path,
-			const int maxStraightPath, const int options=0) const;
+	dtResult findStraightPath(dtVec3 startPos, dtVec3 endPos,
+			const dtPolyRefList& path, const int maxStraightPath,
+			const int options=0) const;
 
 	/// Sliced Pathfinding Functions
 	/// Common use case:
@@ -78,14 +80,16 @@ public:
 
 	dtResult finalizeSlicedFindPath(const int maxPath);
 
-	dtResult finalizeSlicedFindPathPartial(dtPolyRefList existing, const int maxPath);
+	dtResult finalizeSlicedFindPathPartial(const dtPolyRefList& existing,
+			const int maxPath);
 
 	/// Dijkstra Search Functions
 
 	dtResult findPolysAroundCircle(dtPolyRef startRef, dtVec3 centerPos,
-			const float radius, const dtQueryFilter* filter, const int maxResult) const;
+			const float radius, const dtQueryFilter* filter,
+			const int maxResult) const;
 
-	dtResult findPolysAroundShape(dtPolyRef startRef, dtVec3List verts,
+	dtResult findPolysAroundShape(dtPolyRef startRef, const dtVec3List& verts,
 			const dtQueryFilter* filter, const int maxResult) const;
 
 	/// Local Query Functions

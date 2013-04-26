@@ -18,6 +18,10 @@ inline float* typecast(dtVec3& v) {
 	return &(v.x);
 }
 
+inline const float* typecast(const dtVec3& v) {
+	return &(v.x);
+}
+
 
 dtQueryFilterWraper::dtQueryFilterWraper(): dtQueryFilter()
 {
@@ -141,7 +145,8 @@ dtStatus dtNavMeshQueryWraper::init(const dtNavMesh *nav, const int maxNodes) co
 }
 
 dtResult dtNavMeshQueryWraper::findPath(dtPolyRef startRef, dtPolyRef endRef,
-		dtVec3 startPos, dtVec3 endPos, const dtQueryFilter *filter, const int maxPath) const {
+		dtVec3 startPos, dtVec3 endPos, const dtQueryFilter *filter,
+		const int maxPath) const {
 	dtAssert(maxPath > 0);
 
 	int pathCount = 0;
@@ -158,7 +163,8 @@ dtResult dtNavMeshQueryWraper::findPath(dtPolyRef startRef, dtPolyRef endRef,
 }
 
 dtResult dtNavMeshQueryWraper::findStraightPath(dtVec3 startPos, dtVec3 endPos,
-		dtPolyRefList path, const int maxStraightPath, const int options) const {
+		const dtPolyRefList& path, const int maxStraightPath,
+		const int options) const {
 	dtAssert(maxStraightPath > 0);
 	dtAssert((int)path.size() > 0);
 
@@ -218,7 +224,7 @@ dtResult dtNavMeshQueryWraper::finalizeSlicedFindPath(const int maxPath) {
 }
 
 dtResult dtNavMeshQueryWraper::finalizeSlicedFindPathPartial(
-		dtPolyRefList existing, const int maxPath) {
+		const dtPolyRefList& existing, const int maxPath) {
 	dtAssert(maxPath > 0);
 
 	int pathCount = 0;
@@ -258,7 +264,8 @@ dtResult dtNavMeshQueryWraper::findPolysAroundCircle(dtPolyRef startRef,
 }
 
 dtResult dtNavMeshQueryWraper::findPolysAroundShape(dtPolyRef startRef,
-		dtVec3List verts, const dtQueryFilter *filter, const int maxResult) const {
+		const dtVec3List& verts, const dtQueryFilter *filter,
+		const int maxResult) const {
 	dtAssert(maxResult > 0);
 
 	int resultCount = 0;
