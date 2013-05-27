@@ -5,7 +5,10 @@
  */
 
 #include "config.h"
-#include "export.h"
+
+extern void export_math();
+extern void export_detour();
+extern void export_loader();
 
 
 BOOST_PYTHON_MODULE(_recast)
