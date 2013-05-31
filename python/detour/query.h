@@ -20,6 +20,9 @@ typedef std::vector<float> FloatList;
 typedef std::vector<unsigned char> ByteList;
 typedef std::vector<dtPolyRef> dtPolyRefList;
 typedef std::pair<dtStatus, dict> dtResult;
+typedef std::pair<dtStatus, int> dtResultI;
+typedef std::pair<dtStatus, float> dtResultF;
+typedef std::pair<dtStatus, dtVec3> dtResultV;
 
 
 /*
@@ -76,7 +79,7 @@ public:
 	dtStatus initSlicedFindPath(dtPolyRef startRef, dtPolyRef endRef,
 			dtVec3 startPos, dtVec3 endPos, const dtQueryFilter* filter);
 
-	dtResult updateSlicedFindPath(const int maxIter);
+	dtResultI updateSlicedFindPath(const int maxIter);
 
 	dtResult finalizeSlicedFindPath(const int maxPath);
 
@@ -120,11 +123,11 @@ public:
 	dtResult findRandomPointAroundCircle(dtPolyRef startRef, dtVec3 centerPos,
 			const float maxRadius, const dtQueryFilter* filter) const;
 
-	dtResult closestPointOnPoly(dtPolyRef ref, dtVec3 pos) const;
+	dtResultV closestPointOnPoly(dtPolyRef ref, dtVec3 pos) const;
 
-	dtResult closestPointOnPolyBoundary(dtPolyRef ref, dtVec3 pos) const;
+	dtResultV closestPointOnPolyBoundary(dtPolyRef ref, dtVec3 pos) const;
 
-	dtResult getPolyHeight(dtPolyRef ref, dtVec3 pos) const;
+	dtResultF getPolyHeight(dtPolyRef ref, dtVec3 pos) const;
 
 	/// Miscellaneous Functions
 

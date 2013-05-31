@@ -196,16 +196,13 @@ dtStatus dtNavMeshQueryWraper::initSlicedFindPath(dtPolyRef startRef,
 			typecast(startPos), typecast(endPos), filter);
 }
 
-dtResult dtNavMeshQueryWraper::updateSlicedFindPath(const int maxIter) {
+dtResultI dtNavMeshQueryWraper::updateSlicedFindPath(const int maxIter) {
 	dtAssert(maxIter > 0);
 
 	int doneIters = 0;
-
 	dtStatus status = navq_->updateSlicedFindPath(maxIter, &doneIters);
 
-	dict out;
-	out["doneIters"] = doneIters;
-	return dtResult(status, out);
+	return dtResultI(status, doneIters);
 }
 
 dtResult dtNavMeshQueryWraper::finalizeSlicedFindPath(const int maxPath) {
@@ -440,37 +437,31 @@ dtResult dtNavMeshQueryWraper::findRandomPointAroundCircle(dtPolyRef startRef,
 	return dtResult(status, out);
 }
 
-dtResult dtNavMeshQueryWraper::closestPointOnPoly(dtPolyRef ref, dtVec3 pos) const {
+dtResultV dtNavMeshQueryWraper::closestPointOnPoly(dtPolyRef ref, dtVec3 pos) const {
 	dtVec3 closest;
 
 	dtStatus status = navq_->closestPointOnPoly(ref,
 			typecast(pos), typecast(closest));
 
-	dict out;
-	out["closest"] = closest;
-	return dtResult(status, out);
+	return dtResultV(status, closest);
 }
 
-dtResult dtNavMeshQueryWraper::closestPointOnPolyBoundary(dtPolyRef ref,
+dtResultV dtNavMeshQueryWraper::closestPointOnPolyBoundary(dtPolyRef ref,
 		dtVec3 pos) const {
 	dtVec3 closest;
 
 	dtStatus status = navq_->closestPointOnPolyBoundary(ref,
 				typecast(pos), typecast(closest));
 
-	dict out;
-	out["closest"] = closest;
-	return dtResult(status, out);
+	return dtResultV(status, closest);
 }
 
-dtResult dtNavMeshQueryWraper::getPolyHeight(dtPolyRef ref, dtVec3 pos) const {
+dtResultF dtNavMeshQueryWraper::getPolyHeight(dtPolyRef ref, dtVec3 pos) const {
 	float height = 0.0f;
 
 	dtStatus status = navq_->getPolyHeight(ref, typecast(pos), &height);
-	
-	dict out;
-	out["height"] = height;
-	return dtResult(status, out);
+
+	return dtResultF(status, height);
 }
 
 bool dtNavMeshQueryWraper::isValidPolyRef(dtPolyRef ref,

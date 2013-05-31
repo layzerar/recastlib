@@ -86,6 +86,9 @@ void export_detour()
 	vector_from_seq_converter<dtPolyRef>();
 	to_python_converter<dtPolyRefList, vector_to_list_converter<dtPolyRef> >();
 	to_python_converter<dtResult, pair_to_tuple_converter<dtStatus, dict> >();
+	to_python_converter<dtResultI, pair_to_tuple_converter<dtStatus, int> >();
+	to_python_converter<dtResultF, pair_to_tuple_converter<dtStatus, float> >();
+	to_python_converter<dtResultV, pair_to_tuple_converter<dtStatus, dtVec3> >();
 
 }
 

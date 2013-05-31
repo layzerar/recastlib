@@ -42,10 +42,9 @@ def test_sample_tile_mesh():
         return -4, status
     pathRefs = out["path"]
 
-    status, out = query.closestPointOnPoly(pathRefs[-1], endPos)
+    status, fixEndPos = query.closestPointOnPoly(pathRefs[-1], endPos)
     if dt.dtStatusFailed(status):
         return -5, status
-    fixEndPos = out["closest"]
 
     print "Get Path Point List"
     status, out = query.findStraightPath(startPos, fixEndPos, pathRefs, 32, 0)
