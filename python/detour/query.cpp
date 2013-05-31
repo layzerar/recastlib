@@ -52,7 +52,10 @@ bool dtQueryFilterWraper::passFilter(
 			return false;
 		}
 	}
-	return dtQueryFilter::passFilter(ref, tile, poly);
+	else
+	{
+		return dtQueryFilter::passFilter(ref, tile, poly);
+	}
 }
 
 float dtQueryFilterWraper::getCost(
@@ -81,10 +84,13 @@ float dtQueryFilterWraper::getCost(
 			return FLT_MAX;
 		}
 	}
-	return dtQueryFilter::getCost(pa, pb,
+	else
+	{
+		return dtQueryFilter::getCost(pa, pb,
 			prevRef, prevTile, prevPoly,
 			curRef, curTile, curPoly,
 			nextRef, nextTile, nextPoly);
+	}
 }
 
 float dtQueryFilterWraper::getAreaCost(const int i) const
@@ -104,9 +110,11 @@ float dtQueryFilterWraper::getAreaCost(const int i) const
 			return FLT_MAX;
 		}
 	}
-
-	dtAssert(i >= 0 && i < DT_MAX_AREAS);
-	return dtQueryFilter::getAreaCost(i);
+	else
+	{
+		dtAssert(i >= 0 && i < DT_MAX_AREAS);
+		return dtQueryFilter::getAreaCost(i);
+	}
 }
 
 void dtQueryFilterWraper::setAreaCost(const int i, const float cost)
@@ -122,13 +130,13 @@ void dtQueryFilterWraper::setAreaCost(const int i, const float cost)
 		{
 			if (PyErr_Occurred())
 				PyErr_Print();
-
-			return;
 		}
 	}
-
-	dtAssert(i >= 0 && i < DT_MAX_AREAS);
-	dtQueryFilter::setAreaCost(i, cost);
+	else
+	{
+		dtAssert(i >= 0 && i < DT_MAX_AREAS);
+		dtQueryFilter::setAreaCost(i, cost);
+	}
 }
 
 
