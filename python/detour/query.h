@@ -67,8 +67,11 @@ public:
 			const int maxPath) const;
 
 	dtResult findStraightPath(dtVec3 startPos, dtVec3 endPos,
+		const dtPolyRefList& path, const int maxStraightPath) const;
+
+	dtResult findStraightPath(dtVec3 startPos, dtVec3 endPos,
 			const dtPolyRefList& path, const int maxStraightPath,
-			const int options=0) const;
+			const int options) const;
 
 	/// Sliced Pathfinding Functions
 	/// Common use case:

@@ -10,6 +10,17 @@
 #include "convertor.h"
 
 
+/*
+ * rename overloading functions
+ */
+dtResult (dtNavMeshQueryWraper::*dtNavMeshQueryWraper_findStraightPath4)(
+	dtVec3 startPos, dtVec3 endPos, const dtPolyRefList& path,
+	const int maxStraightPath) const = &dtNavMeshQueryWraper::findStraightPath;
+dtResult (dtNavMeshQueryWraper::*dtNavMeshQueryWraper_findStraightPath5)(
+	dtVec3 startPos, dtVec3 endPos, const dtPolyRefList& path,
+	const int maxStraightPath, const int options) const = &dtNavMeshQueryWraper::findStraightPath;
+
+
 void export_detour()
 {
 	using namespace boost::python;
@@ -30,8 +41,19 @@ void export_detour()
 		.value("DT_STATUS_DETAIL_MASK", DT_STATUS_DETAIL_MASK)
 	;
 
+	enum_<dtStraightPathFlags>("dtStraightPathFlags")
+		.value("DT_STRAIGHTPATH_START", DT_STRAIGHTPATH_START)
+		.value("DT_STRAIGHTPATH_END", DT_STRAIGHTPATH_END)
+		.value("DT_STRAIGHTPATH_OFFMESH_CONNECTION", DT_STRAIGHTPATH_OFFMESH_CONNECTION)
+	;
 
-	class_<dtNavMesh, boost::noncopyable, dtNavMesh*>("_dtNavMesh", no_init);
+	enum_<dtStraightPathOptions>("dtStraightPathOptions")
+		.value("DT_STRAIGHTPATH_AREA_CROSSINGS", DT_STRAIGHTPATH_AREA_CROSSINGS)
+		.value("DT_STRAIGHTPATH_ALL_CROSSINGS", DT_STRAIGHTPATH_ALL_CROSSINGS)
+	;
+
+
+	class_<dtNavMesh, boost::noncopyable, dtNavMesh*>("dtNavMesh", no_init);
 
 	class_<dtQueryFilterWraper, boost::noncopyable, dtQueryFilter*>("dtQueryFilter")
 		.def("passFilter", &dtQueryFilter::passFilter, &dtQueryFilterWraper::passFilter)
@@ -47,7 +69,8 @@ void export_detour()
 	class_<dtNavMeshQueryWraper, boost::noncopyable>("dtNavMeshQuery")
 		.def("init", &dtNavMeshQueryWraper::init, with_custodian_and_ward<1, 2>())
 		.def("findPath", &dtNavMeshQueryWraper::findPath)
-		.def("findStraightPath", &dtNavMeshQueryWraper::findStraightPath)
+		.def("findStraightPath", dtNavMeshQueryWraper_findStraightPath4)
+		.def("findStraightPath", dtNavMeshQueryWraper_findStraightPath5)
 		.def("initSlicedFindPath", &dtNavMeshQueryWraper::initSlicedFindPath)
 		.def("updateSlicedFindPath", &dtNavMeshQueryWraper::updateSlicedFindPath)
 		.def("finalizeSlicedFindPath", &dtNavMeshQueryWraper::finalizeSlicedFindPath)

@@ -14,16 +14,19 @@ using boost::python::override;
 using boost::python::error_already_set;
 
 
-inline float* typecast(dtVec3& v) {
+inline float* typecast(dtVec3& v)
+{
 	return &(v.x);
 }
 
-inline const float* typecast(const dtVec3& v) {
+inline const float* typecast(const dtVec3& v)
+{
 	return &(v.x);
 }
 
 
-dtQueryFilterWraper::dtQueryFilterWraper(): dtQueryFilter()
+dtQueryFilterWraper::dtQueryFilterWraper()
+	: dtQueryFilter()
 {
 }
 
@@ -129,13 +132,15 @@ void dtQueryFilterWraper::setAreaCost(const int i, const float cost)
 }
 
 
-dtNavMeshQueryWraper::dtNavMeshQueryWraper() :
-		navq_(dtAllocNavMeshQuery()) {
+dtNavMeshQueryWraper::dtNavMeshQueryWraper()
+	: navq_(dtAllocNavMeshQuery())
+{
 	if (!navq_)
 		MemoryError();
 }
 
-dtNavMeshQueryWraper::~dtNavMeshQueryWraper() {
+dtNavMeshQueryWraper::~dtNavMeshQueryWraper()
+{
 	dtFreeNavMeshQuery(navq_);
 }
 
@@ -146,7 +151,8 @@ dtStatus dtNavMeshQueryWraper::init(const dtNavMesh *nav, const int maxNodes) co
 
 dtResult dtNavMeshQueryWraper::findPath(dtPolyRef startRef, dtPolyRef endRef,
 		dtVec3 startPos, dtVec3 endPos, const dtQueryFilter *filter,
-		const int maxPath) const {
+		const int maxPath) const
+{
 	dtAssert(maxPath > 0);
 
 	int pathCount = 0;
@@ -163,8 +169,15 @@ dtResult dtNavMeshQueryWraper::findPath(dtPolyRef startRef, dtPolyRef endRef,
 }
 
 dtResult dtNavMeshQueryWraper::findStraightPath(dtVec3 startPos, dtVec3 endPos,
+	const dtPolyRefList& path, const int maxStraightPath) const
+{
+	return findStraightPath(startPos, endPos, path, maxStraightPath, 0);
+}
+
+dtResult dtNavMeshQueryWraper::findStraightPath(dtVec3 startPos, dtVec3 endPos,
 		const dtPolyRefList& path, const int maxStraightPath,
-		const int options) const {
+		const int options) const
+{
 	dtAssert(maxStraightPath > 0);
 	dtAssert((int)path.size() > 0);
 
@@ -191,12 +204,14 @@ dtResult dtNavMeshQueryWraper::findStraightPath(dtVec3 startPos, dtVec3 endPos,
 
 dtStatus dtNavMeshQueryWraper::initSlicedFindPath(dtPolyRef startRef,
 		dtPolyRef endRef, dtVec3 startPos, dtVec3 endPos,
-		const dtQueryFilter *filter) {
+		const dtQueryFilter *filter)
+{
 	return navq_->initSlicedFindPath(startRef, endRef,
 			typecast(startPos), typecast(endPos), filter);
 }
 
-dtResultI dtNavMeshQueryWraper::updateSlicedFindPath(const int maxIter) {
+dtResultI dtNavMeshQueryWraper::updateSlicedFindPath(const int maxIter)
+{
 	dtAssert(maxIter > 0);
 
 	int doneIters = 0;
@@ -205,7 +220,8 @@ dtResultI dtNavMeshQueryWraper::updateSlicedFindPath(const int maxIter) {
 	return dtResultI(status, doneIters);
 }
 
-dtResult dtNavMeshQueryWraper::finalizeSlicedFindPath(const int maxPath) {
+dtResult dtNavMeshQueryWraper::finalizeSlicedFindPath(const int maxPath)
+{
 	dtAssert(maxPath > 0);
 
 	int pathCount = 0;
@@ -221,7 +237,8 @@ dtResult dtNavMeshQueryWraper::finalizeSlicedFindPath(const int maxPath) {
 }
 
 dtResult dtNavMeshQueryWraper::finalizeSlicedFindPathPartial(
-		const dtPolyRefList& existing, const int maxPath) {
+		const dtPolyRefList& existing, const int maxPath)
+{
 	dtAssert(maxPath > 0);
 
 	int pathCount = 0;
@@ -239,7 +256,8 @@ dtResult dtNavMeshQueryWraper::finalizeSlicedFindPathPartial(
 
 dtResult dtNavMeshQueryWraper::findPolysAroundCircle(dtPolyRef startRef,
 		dtVec3 centerPos, const float radius, const dtQueryFilter *filter,
-		const int maxResult) const {
+		const int maxResult) const
+{
 	dtAssert(maxResult > 0);
 
 	int resultCount = 0;
@@ -262,7 +280,8 @@ dtResult dtNavMeshQueryWraper::findPolysAroundCircle(dtPolyRef startRef,
 
 dtResult dtNavMeshQueryWraper::findPolysAroundShape(dtPolyRef startRef,
 		const dtVec3List& verts, const dtQueryFilter *filter,
-		const int maxResult) const {
+		const int maxResult) const
+{
 	dtAssert(maxResult > 0);
 
 	int resultCount = 0;
@@ -284,7 +303,8 @@ dtResult dtNavMeshQueryWraper::findPolysAroundShape(dtPolyRef startRef,
 }
 
 dtResult dtNavMeshQueryWraper::findNearestPoly(dtVec3 center, dtVec3 extents,
-		const dtQueryFilter *filter) const {
+		const dtQueryFilter *filter) const
+{
 	dtVec3 nearestPt;
 	dtPolyRef nearestRef = 0;
 
@@ -298,7 +318,8 @@ dtResult dtNavMeshQueryWraper::findNearestPoly(dtVec3 center, dtVec3 extents,
 }
 
 dtResult dtNavMeshQueryWraper::queryPolygons(dtVec3 center, dtVec3 extents,
-		const dtQueryFilter *filter, const int maxPolys) const {
+		const dtQueryFilter *filter, const int maxPolys) const
+{
 	dtAssert(maxPolys > 0);
 
 	int polyCount = 0;
@@ -315,7 +336,8 @@ dtResult dtNavMeshQueryWraper::queryPolygons(dtVec3 center, dtVec3 extents,
 
 dtResult dtNavMeshQueryWraper::findLocalNeighbourhood(dtPolyRef startRef,
 		dtVec3 centerPos, const float radius, const dtQueryFilter *filter,
-		const int maxResult) const {
+		const int maxResult) const
+{
 	dtAssert(maxResult > 0);
 
 	int resultCount = 0;
@@ -335,7 +357,8 @@ dtResult dtNavMeshQueryWraper::findLocalNeighbourhood(dtPolyRef startRef,
 
 dtResult dtNavMeshQueryWraper::moveAlongSurface(dtPolyRef startRef,
 		dtVec3 startPos, dtVec3 endPos, const dtQueryFilter *filter,
-		const int maxVisitedSize) const {
+		const int maxVisitedSize) const
+{
 	dtAssert(maxVisitedSize > 0);
 
 	int visitedCount = 0;
@@ -354,7 +377,8 @@ dtResult dtNavMeshQueryWraper::moveAlongSurface(dtPolyRef startRef,
 }
 
 dtResult dtNavMeshQueryWraper::raycast(dtPolyRef startRef, dtVec3 startPos,
-		dtVec3 endPos, const dtQueryFilter *filter, const int maxPath) const {
+		dtVec3 endPos, const dtQueryFilter *filter, const int maxPath) const
+{
 	dtAssert(maxPath > 0);
 
 	int pathCount = 0;
@@ -375,7 +399,8 @@ dtResult dtNavMeshQueryWraper::raycast(dtPolyRef startRef, dtVec3 startPos,
 }
 
 dtResult dtNavMeshQueryWraper::findDistanceToWall(dtPolyRef startRef,
-		dtVec3 centerPos, const float maxRadius, const dtQueryFilter *filter) const {
+		dtVec3 centerPos, const float maxRadius, const dtQueryFilter *filter) const
+{
 
 	float hitDist = maxRadius;
 	dtVec3 hitPos, hitNormal;
@@ -392,7 +417,8 @@ dtResult dtNavMeshQueryWraper::findDistanceToWall(dtPolyRef startRef,
 }
 
 dtResult dtNavMeshQueryWraper::getPolyWallSegments(dtPolyRef ref,
-		const dtQueryFilter *filter, const int maxSegments) const {
+		const dtQueryFilter *filter, const int maxSegments) const
+{
 	dtAssert(maxSegments > 0);
 
 	int segmentCount = 0;
@@ -409,7 +435,8 @@ dtResult dtNavMeshQueryWraper::getPolyWallSegments(dtPolyRef ref,
 	return dtResult(status, out);
 }
 
-dtResult dtNavMeshQueryWraper::findRandomPoint(const dtQueryFilter *filter) const {
+dtResult dtNavMeshQueryWraper::findRandomPoint(const dtQueryFilter *filter) const
+{
 	dtVec3 randomPt;
 	dtPolyRef randomRef = 0;
 
@@ -423,7 +450,8 @@ dtResult dtNavMeshQueryWraper::findRandomPoint(const dtQueryFilter *filter) cons
 }
 
 dtResult dtNavMeshQueryWraper::findRandomPointAroundCircle(dtPolyRef startRef,
-		dtVec3 centerPos, const float maxRadius, const dtQueryFilter *filter) const {
+		dtVec3 centerPos, const float maxRadius, const dtQueryFilter *filter) const
+{
 	dtVec3 randomPt;
 	dtPolyRef randomRef = 0;
 
@@ -437,7 +465,8 @@ dtResult dtNavMeshQueryWraper::findRandomPointAroundCircle(dtPolyRef startRef,
 	return dtResult(status, out);
 }
 
-dtResultV dtNavMeshQueryWraper::closestPointOnPoly(dtPolyRef ref, dtVec3 pos) const {
+dtResultV dtNavMeshQueryWraper::closestPointOnPoly(dtPolyRef ref, dtVec3 pos) const
+{
 	dtVec3 closest;
 
 	dtStatus status = navq_->closestPointOnPoly(ref,
@@ -447,7 +476,8 @@ dtResultV dtNavMeshQueryWraper::closestPointOnPoly(dtPolyRef ref, dtVec3 pos) co
 }
 
 dtResultV dtNavMeshQueryWraper::closestPointOnPolyBoundary(dtPolyRef ref,
-		dtVec3 pos) const {
+		dtVec3 pos) const
+{
 	dtVec3 closest;
 
 	dtStatus status = navq_->closestPointOnPolyBoundary(ref,
@@ -456,7 +486,8 @@ dtResultV dtNavMeshQueryWraper::closestPointOnPolyBoundary(dtPolyRef ref,
 	return dtResultV(status, closest);
 }
 
-dtResultF dtNavMeshQueryWraper::getPolyHeight(dtPolyRef ref, dtVec3 pos) const {
+dtResultF dtNavMeshQueryWraper::getPolyHeight(dtPolyRef ref, dtVec3 pos) const
+{
 	float height = 0.0f;
 
 	dtStatus status = navq_->getPolyHeight(ref, typecast(pos), &height);
@@ -465,19 +496,23 @@ dtResultF dtNavMeshQueryWraper::getPolyHeight(dtPolyRef ref, dtVec3 pos) const {
 }
 
 bool dtNavMeshQueryWraper::isValidPolyRef(dtPolyRef ref,
-		const dtQueryFilter *filter) const {
+		const dtQueryFilter *filter) const
+{
 	return navq_->isValidPolyRef(ref, filter);
 }
 
-bool dtNavMeshQueryWraper::isInClosedList(dtPolyRef ref) const {
+bool dtNavMeshQueryWraper::isInClosedList(dtPolyRef ref) const
+{
 	return navq_->isInClosedList(ref);
 }
 
-const dtNavMesh* dtNavMeshQueryWraper::getAttachedNavMesh() const {
+const dtNavMesh* dtNavMeshQueryWraper::getAttachedNavMesh() const
+{
 	return navq_->getAttachedNavMesh();
 }
 
-dtNodePool* dtNavMeshQueryWraper::getNodePool() const {
+dtNodePool* dtNavMeshQueryWraper::getNodePool() const
+{
 	return navq_->getNodePool();
 }
 
