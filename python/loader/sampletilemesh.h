@@ -7,6 +7,8 @@
 #ifndef SAMPLETILEMESH_H_
 #define SAMPLETILEMESH_H_
 
+#include "config.h"
+
 dtNavMesh* dtLoadSampleTileMesh(const char* path);
 
 
