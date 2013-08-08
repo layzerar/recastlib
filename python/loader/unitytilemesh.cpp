@@ -34,10 +34,9 @@ static int dtFindNavMeshEntry(ifstream& fp)
 
 		off = line.find(entry1);
 		if (off == string::npos)
-			continue;
-		off = line.find(entry2);
-		if (off == string::npos)
-			continue;
+			off = line.find(entry2);
+			if (off == string::npos)
+				continue;
 
 		pos += (int)off;
 		if (pos < 0)
