@@ -253,7 +253,7 @@ struct dtMeshTile
 	float* detailVerts;	
 
 	/// The detail mesh's triangles. [(vertA, vertB, vertC) * dtMeshHeader::detailTriCount]
-	unsigned char* detailTris;	
+	unsigned short* detailTris;	
 
 	/// The tile bounding volume nodes. [Size: dtMeshHeader::bvNodeCount]
 	/// (Will be null if bounding volumes are disabled.)

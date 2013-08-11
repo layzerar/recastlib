@@ -404,7 +404,7 @@ bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData,
 	const int linksSize = dtAlign4(sizeof(dtLink)*maxLinkCount);
 	const int detailMeshesSize = dtAlign4(sizeof(dtPolyDetail)*params->polyCount);
 	const int detailVertsSize = dtAlign4(sizeof(float)*3*uniqueDetailVertCount);
-	const int detailTrisSize = dtAlign4(sizeof(unsigned char)*4*detailTriCount);
+	const int detailTrisSize = dtAlign4(sizeof(unsigned short)*4*detailTriCount);
 	const int bvTreeSize = params->buildBvTree ? dtAlign4(sizeof(dtBVNode)*params->polyCount*2) : 0;
 	const int offMeshConsSize = dtAlign4(sizeof(dtOffMeshConnection)*storedOffMeshConCount);
 	
@@ -427,7 +427,7 @@ bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData,
 	d += linksSize;
 	dtPolyDetail* navDMeshes = (dtPolyDetail*)d; d += detailMeshesSize;
 	float* navDVerts = (float*)d; d += detailVertsSize;
-	unsigned char* navDTris = (unsigned char*)d; d += detailTrisSize;
+	unsigned short* navDTris = (unsigned short*)d; d += detailTrisSize;
 	dtBVNode* navBvtree = (dtBVNode*)d; d += bvTreeSize;
 	dtOffMeshConnection* offMeshCons = (dtOffMeshConnection*)d; d += offMeshConsSize;
 	
@@ -564,7 +564,7 @@ bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData,
 			}
 		}
 		// Store triangles.
-		memcpy(navDTris, params->detailTris, sizeof(unsigned char)*4*params->detailTriCount);
+		memcpy(navDTris, params->detailTris, sizeof(unsigned short)*4*params->detailTriCount);
 	}
 	else
 	{
@@ -581,7 +581,7 @@ bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData,
 			// Triangulate polygon (local indices).
 			for (int j = 2; j < nv; ++j)
 			{
-				unsigned char* t = &navDTris[tbase*4];
+				unsigned short* t = &navDTris[tbase*4];
 				t[0] = 0;
 				t[1] = (unsigned char)(j-1);
 				t[2] = (unsigned char)j;
@@ -700,7 +700,7 @@ bool dtNavMeshDataSwapEndian(unsigned char* data, const int /*dataSize*/)
 	const int linksSize = dtAlign4(sizeof(dtLink)*(header->maxLinkCount));
 	const int detailMeshesSize = dtAlign4(sizeof(dtPolyDetail)*header->detailMeshCount);
 	const int detailVertsSize = dtAlign4(sizeof(float)*3*header->detailVertCount);
-	const int detailTrisSize = dtAlign4(sizeof(unsigned char)*4*header->detailTriCount);
+	const int detailTrisSize = dtAlign4(sizeof(unsigned short)*4*header->detailTriCount);
 	const int bvtreeSize = dtAlign4(sizeof(dtBVNode)*header->bvNodeCount);
 	const int offMeshLinksSize = dtAlign4(sizeof(dtOffMeshConnection)*header->offMeshConCount);
 	
@@ -710,7 +710,7 @@ bool dtNavMeshDataSwapEndian(unsigned char* data, const int /*dataSize*/)
 	/*dtLink* links = (dtLink*)d;*/ d += linksSize;
 	dtPolyDetail* detailMeshes = (dtPolyDetail*)d; d += detailMeshesSize;
 	float* detailVerts = (float*)d; d += detailVertsSize;
-	/*unsigned char* detailTris = (unsigned char*)d;*/ d += detailTrisSize;
+	/*unsigned short* detailTris = (unsigned short*)d;*/ d += detailTrisSize;
 	dtBVNode* bvTree = (dtBVNode*)d; d += bvtreeSize;
 	dtOffMeshConnection* offMeshCons = (dtOffMeshConnection*)d; d += offMeshLinksSize;
 	

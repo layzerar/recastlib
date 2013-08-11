@@ -660,7 +660,7 @@ void dtNavMesh::closestPointOnPolyInTile(const dtMeshTile* tile, unsigned int ip
 	// Find height at the location.
 	for (int j = 0; j < pd->triCount; ++j)
 	{
-		const unsigned char* t = &tile->detailTris[(pd->triBase+j)*4];
+		const unsigned short* t = &tile->detailTris[(pd->triBase+j)*4];
 		const float* v[3];
 		for (int k = 0; k < 3; ++k)
 		{
@@ -875,7 +875,7 @@ dtStatus dtNavMesh::addTile(unsigned char* data, int dataSize, int flags,
 	const int linksSize = dtAlign4(sizeof(dtLink)*(header->maxLinkCount));
 	const int detailMeshesSize = dtAlign4(sizeof(dtPolyDetail)*header->detailMeshCount);
 	const int detailVertsSize = dtAlign4(sizeof(float)*3*header->detailVertCount);
-	const int detailTrisSize = dtAlign4(sizeof(unsigned char)*4*header->detailTriCount);
+	const int detailTrisSize = dtAlign4(sizeof(unsigned short)*4*header->detailTriCount);
 	const int bvtreeSize = dtAlign4(sizeof(dtBVNode)*header->bvNodeCount);
 	const int offMeshLinksSize = dtAlign4(sizeof(dtOffMeshConnection)*header->offMeshConCount);
 	
@@ -885,7 +885,7 @@ dtStatus dtNavMesh::addTile(unsigned char* data, int dataSize, int flags,
 	tile->links = (dtLink*)d; d += linksSize;
 	tile->detailMeshes = (dtPolyDetail*)d; d += detailMeshesSize;
 	tile->detailVerts = (float*)d; d += detailVertsSize;
-	tile->detailTris = (unsigned char*)d; d += detailTrisSize;
+	tile->detailTris = (unsigned short*)d; d += detailTrisSize;
 	tile->bvTree = (dtBVNode*)d; d += bvtreeSize;
 	tile->offMeshCons = (dtOffMeshConnection*)d; d += offMeshLinksSize;
 
@@ -936,6 +936,22 @@ dtStatus dtNavMesh::addTile(unsigned char* data, int dataSize, int flags,
 			connectExtLinks(neis[j], tile, dtOppositeTile(i));
 			connectExtOffMeshLinks(tile, neis[j], i);
 			connectExtOffMeshLinks(neis[j], tile, dtOppositeTile(i));
+		}
+	}
+	
+	// Calculate the vertexes count of polygon.
+	dtPoly* poly;
+	for (int i = 0; i < header->polyCount; ++i)
+	{
+		poly = &tile->polys[i];
+		poly->vertCount = DT_VERTS_PER_POLYGON;
+		for (int j = 3; j < DT_VERTS_PER_POLYGON; ++j)
+		{
+			if (poly->verts[j] == 0)
+			{
+				poly->vertCount = j;
+				break;
+			}
 		}
 	}
 	

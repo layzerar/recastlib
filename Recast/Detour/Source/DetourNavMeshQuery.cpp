@@ -564,7 +564,7 @@ void dtNavMeshQuery::closestPointOnPolyInTile(const dtMeshTile* tile, const dtPo
 	// Find height at the location.
 	for (int j = 0; j < pd->triCount; ++j)
 	{
-		const unsigned char* t = &tile->detailTris[(pd->triBase+j)*4];
+		const unsigned short* t = &tile->detailTris[(pd->triBase+j)*4];
 		const float* v[3];
 		for (int k = 0; k < 3; ++k)
 		{
@@ -584,7 +584,7 @@ void dtNavMeshQuery::closestPointOnPolyInTile(const dtMeshTile* tile, const dtPo
 /*	float closestDistSqr = FLT_MAX;
 	for (int j = 0; j < pd->triCount; ++j)
 	{
-		const unsigned char* t = &tile->detailTris[(pd->triBase+j)*4];
+		const unsigned short* t = &tile->detailTris[(pd->triBase+j)*4];
 		const float* v[3];
 		for (int k = 0; k < 3; ++k)
 		{
@@ -695,7 +695,7 @@ dtStatus dtNavMeshQuery::getPolyHeight(dtPolyRef ref, const float* pos, float* h
 		const dtPolyDetail* pd = &tile->detailMeshes[ip];
 		for (int j = 0; j < pd->triCount; ++j)
 		{
-			const unsigned char* t = &tile->detailTris[(pd->triBase+j)*4];
+			const unsigned short* t = &tile->detailTris[(pd->triBase+j)*4];
 			const float* v[3];
 			for (int k = 0; k < 3; ++k)
 			{

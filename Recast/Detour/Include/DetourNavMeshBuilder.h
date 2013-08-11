@@ -47,7 +47,7 @@ struct dtNavMeshCreateParams
 	const unsigned int* detailMeshes;		///< The height detail sub-mesh data. [Size: 4 * #polyCount]
 	const float* detailVerts;				///< The detail mesh vertices. [Size: 3 * #detailVertsCount] [Unit: wu]
 	int detailVertsCount;					///< The number of vertices in the detail mesh.
-	const unsigned char* detailTris;		///< The detail mesh triangles. [Size: 4 * #detailTriCount]
+	const unsigned short* detailTris;		///< The detail mesh triangles. [Size: 4 * #detailTriCount]
 	int detailTriCount;						///< The number of triangles in the detail mesh.
 
 	/// @}
