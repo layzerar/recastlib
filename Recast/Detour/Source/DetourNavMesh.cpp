@@ -893,6 +893,22 @@ dtStatus dtNavMesh::addTile(unsigned char* data, int dataSize, int flags,
 	if (!bvtreeSize)
 		tile->bvTree = 0;
 
+	// Calculate the vertexes count of polygon.
+	dtPoly* poly;
+	for (int i = 0; i < header->polyCount; ++i)
+	{
+		poly = &tile->polys[i];
+		poly->vertCount = DT_VERTS_PER_POLYGON;
+		for (int j = 3; j < DT_VERTS_PER_POLYGON; ++j)
+		{
+			if (poly->verts[j] == 0)
+			{
+				poly->vertCount = j;
+				break;
+			}
+		}
+	}
+
 	// Build links freelist
 	tile->linksFreeList = 0;
 	tile->links[header->maxLinkCount-1].next = DT_NULL_LINK;
@@ -936,22 +952,6 @@ dtStatus dtNavMesh::addTile(unsigned char* data, int dataSize, int flags,
 			connectExtLinks(neis[j], tile, dtOppositeTile(i));
 			connectExtOffMeshLinks(tile, neis[j], i);
 			connectExtOffMeshLinks(neis[j], tile, dtOppositeTile(i));
-		}
-	}
-	
-	// Calculate the vertexes count of polygon.
-	dtPoly* poly;
-	for (int i = 0; i < header->polyCount; ++i)
-	{
-		poly = &tile->polys[i];
-		poly->vertCount = DT_VERTS_PER_POLYGON;
-		for (int j = 3; j < DT_VERTS_PER_POLYGON; ++j)
-		{
-			if (poly->verts[j] == 0)
-			{
-				poly->vertCount = j;
-				break;
-			}
 		}
 	}
 	
