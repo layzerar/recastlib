@@ -5,12 +5,12 @@ python:
 
 # command to install dependencies
 before_install:
+  - sudo apt-get install python-dev
   - sudo apt-get install libboost-python-dev
   - sudo apt-get install libboost-random-dev
 
 # command to install dependencies
-install:
-  - python setup.py build
+install: python setup.py build
 
 # command to run tests
 script: nosetests
