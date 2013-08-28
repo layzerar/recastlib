@@ -57,7 +57,10 @@
     <ClInclude Include="..\python\detour\query.h">
       <Filter>python</Filter>
     </ClInclude>
-    <ClInclude Include="..\python\loader\sampletilemesh.h">
+    <ClInclude Include="..\python\loader\tilemesh.h">
+      <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\python\loader\unitytilemesh.h">
       <Filter>python</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,7 +98,10 @@
     <ClCompile Include="..\python\detour\query.cpp">
       <Filter>python</Filter>
     </ClCompile>
-    <ClCompile Include="..\python\loader\sampletilemesh.cpp">
+    <ClCompile Include="..\python\loader\tilemesh.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\loader\unitytilemesh.cpp">
       <Filter>python</Filter>
     </ClCompile>
   </ItemGroup>

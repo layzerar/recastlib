@@ -32,7 +32,8 @@ ${PROJECT_SOURCE_DIR}/Recast/Detour/Source/DetourNavMeshBuilder.cpp
 ${PROJECT_SOURCE_DIR}/Recast/Detour/Source/DetourNavMeshQuery.cpp
 ${PROJECT_SOURCE_DIR}/Recast/Detour/Source/DetourNode.cpp
 ${PROJECT_SOURCE_DIR}/python/detour/query.cpp
-${PROJECT_SOURCE_DIR}/python/loader/sampletilemesh.cpp
+${PROJECT_SOURCE_DIR}/python/loader/tilemesh.cpp
+${PROJECT_SOURCE_DIR}/python/loader/unitytilemesh.cpp
 ${PROJECT_SOURCE_DIR}/python/detour.cpp
 ${PROJECT_SOURCE_DIR}/python/dtmath.cpp
 ${PROJECT_SOURCE_DIR}/python/loader.cpp
