@@ -1,7 +1,6 @@
 import os
 from distutils.core import setup, Extension
-
-import config
+import env
 
 libext_name = '_recast'
 
@@ -53,8 +52,8 @@ def main():
         'python',
         ]
     libraries += ['boost_python']
-    include_dirs += config.boost_include
-    library_dirs += config.boost_library_path
+    include_dirs += env.boost_include
+    library_dirs += env.boost_library_path
     sources += findcxx('Recast/Detour')
     sources += findcxx('python')
 
