@@ -8,6 +8,5 @@
 #define LOADER_H_
 
 #include "loader/sampletilemesh.h"
-#include "loader/unitytilemesh.h"
 
 #endif /* LOADER_H_ */

@@ -95,6 +95,7 @@
     <ClInclude Include="..\python\export.h" />
     <ClInclude Include="..\python\loader.h" />
     <ClInclude Include="..\python\loader\sampletilemesh.h" />
+    <ClInclude Include="..\python\loader\tilemesh.h" />
     <ClInclude Include="..\Recast\Detour\Include\DetourAlloc.h" />
     <ClInclude Include="..\Recast\Detour\Include\DetourAssert.h" />
     <ClInclude Include="..\Recast\Detour\Include\DetourCommon.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="..\python\export.cpp" />
     <ClCompile Include="..\python\loader.cpp" />
     <ClCompile Include="..\python\loader\sampletilemesh.cpp" />
+    <ClCompile Include="..\python\loader\tilemesh.cpp" />
     <ClCompile Include="..\Recast\Detour\Source\DetourAlloc.cpp" />
     <ClCompile Include="..\Recast\Detour\Source\DetourCommon.cpp" />
     <ClCompile Include="..\Recast\Detour\Source\DetourNavMesh.cpp" />

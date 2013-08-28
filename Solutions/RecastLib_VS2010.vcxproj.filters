@@ -60,6 +60,9 @@
     <ClInclude Include="..\python\loader\sampletilemesh.h">
       <Filter>python</Filter>
     </ClInclude>
+    <ClInclude Include="..\python\loader\tilemesh.h">
+      <Filter>python</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Recast\Detour\Source\DetourAlloc.cpp">
@@ -96,6 +99,9 @@
       <Filter>python</Filter>
     </ClCompile>
     <ClCompile Include="..\python\loader\sampletilemesh.cpp">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="..\python\loader\tilemesh.cpp">
       <Filter>python</Filter>
     </ClCompile>
   </ItemGroup>
