@@ -7,9 +7,10 @@ python:
 before_install:
   - sudo apt-get install python-dev
   - sudo apt-get install libboost-dev
+  - sudo apt-get install libboost-python-dev
 
 # build script
 install: python setup.py build
 
-# command to run tests
+# run tests
 script: nosetests
