@@ -3,13 +3,12 @@ python:
   - "2.6"
   - "2.7"
 
-# command to install dependencies
+# install dependencies
 before_install:
   - sudo apt-get install python-dev
-  - sudo apt-get install libboost-python-dev
-  - sudo apt-get install libboost-random-dev
+  - sudo apt-get install libboost-dev
 
-# command to install dependencies
+# build script
 install: python setup.py build
 
 # command to run tests
