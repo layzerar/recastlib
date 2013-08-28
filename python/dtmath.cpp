@@ -14,8 +14,8 @@ using boost::python::object;
 
 
 float frand_01() {
-	using boost::random::mt19937;
-	using boost::random::uniform_01;
+	using boost::mt19937;
+	using boost::uniform_01;
 
 	mt19937 rng(43);
 	static uniform_01<mt19937> zeroone(rng);
