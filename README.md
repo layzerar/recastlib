@@ -7,4 +7,4 @@ For more detail, please see https://code.google.com/p/recastnavigation.
 
 
 ## License
-MIT License
+Zlib License
