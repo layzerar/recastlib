@@ -11,7 +11,10 @@ before_install:
   - cp -rf Recast\(Patched\)/* Recast/
 
 # build script
-install: python setup.py build
+install:
+  - python setup.py install
 
 # run tests
-script: nosetests
+script:
+  - cd examples
+  - python simpletest.py
